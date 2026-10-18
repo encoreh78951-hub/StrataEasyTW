@@ -7,6 +7,12 @@ on:
     tags: ['v*']
   pull_request:
 
+# GitHub's Windows console can default to cp1252. Avoid crashes when a
+# Chinese message or filesystem path appears in test/build output.
+env:
+  PYTHONIOENCODING: utf-8
+  PYTHONUTF8: '1'
+
 permissions:
   contents: read
 

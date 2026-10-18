@@ -1,5 +1,8 @@
 """Release candidate must fail closed unless the build really passed its checks."""
 from pathlib import Path
+import io
+import json
+from contextlib import redirect_stdout, redirect_stderr
 import os
 import sys
 import unittest
@@ -16,6 +19,31 @@ class ReleaseSafety(unittest.TestCase):
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         self.assertIn('.pytest_cache', module.EXCLUDED)
+
+    def test_source_gate_output_under_windows_cp1252(self):
+        # Simulates GitHub Windows stdout that cannot encode Chinese.
+        raw=io.BytesIO()
+        stream=io.TextIOWrapper(raw, encoding='cp1252', errors='strict')
+        with patch.object(sys, 'argv', ['release_gate.py', '--source-check']):
+            with redirect_stdout(stream):
+                status=release_gate.main()
+        stream.flush()
+        self.assertEqual(status, 0)
+        data=json.loads(raw.getvalue().decode('cp1252'))
+        self.assertTrue(data['ok'])
+        self.assertIn('\\u', raw.getvalue().decode('cp1252'))
+
+    def test_error_output_under_windows_cp1252(self):
+        raw=io.BytesIO()
+        stream=io.TextIOWrapper(raw, encoding='cp1252', errors='strict')
+        with patch.object(sys, 'argv', ['release_gate.py', '--source-check']):
+            with patch.object(release_gate, 'verify_text_launchers',
+                              side_effect=release_gate.ReleaseGateError('繁體中文錯誤')):
+                with redirect_stderr(stream):
+                    status=release_gate.main()
+        stream.flush()
+        self.assertEqual(status, 1)
+        self.assertIn('\\u', raw.getvalue().decode('cp1252'))
 
     def test_ascii_and_crlf_launchers(self):
         self.assertTrue(release_gate.verify_text_launchers()['ok'])

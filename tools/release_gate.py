@@ -112,9 +112,14 @@ def main():
     args=parser.parse_args()
     try:result=verify_binaries() if args.binary_check else verify_text_launchers()
     except (ReleaseGateError,OSError,zipfile.BadZipFile,ValueError) as exc:
-        print('發佈閘門不通過：'+str(exc),file=sys.stderr)
+        # Runner stderr may be cp1252; keep diagnostics printable without
+        # weakening the actual release verification.
+        detail = ('發佈閘門不通過：' + str(exc)).encode('ascii', 'backslashreplace').decode('ascii')
+        print(detail, file=sys.stderr)
         return 1
-    print(json.dumps(result,ensure_ascii=False,indent=2))
+    # Console JSON must remain encodable even if Windows uses cp1252.
+    # Machine-readable reports written to files are still real UTF-8.
+    print(json.dumps(result,ensure_ascii=True,indent=2))
     return 0
 
 if __name__=='__main__':raise SystemExit(main())
