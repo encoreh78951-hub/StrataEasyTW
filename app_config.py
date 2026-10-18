@@ -2,7 +2,7 @@
 from pathlib import Path
 import os
 import sys
-VERSION = '1.2.0-rc2'
+VERSION = '1.3.0-rc1'
 APP_NAME = 'Strata Easy TW'
 REPO = 'https://github.com/Niko1221/Strata'
 CHAT_URL = 'http://127.0.0.1:8080'

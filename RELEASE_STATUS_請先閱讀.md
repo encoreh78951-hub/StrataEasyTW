@@ -1,20 +1,20 @@
-# Strata Easy TW 1.2.0-rc2｜公開發布現況
+# Strata Easy TW 1.3.0-rc1｜公開發布現況
 
 ## 可以確認的結果（2026-10-18）
 
-- 原始碼：**59 項單元／回歸測試，58 項通過、1 項略過**（Windows ConPTY 在 Linux 未執行）。
+- 原始碼：**72 項單元／回歸測試，71 項通過、1 項略過**（Windows ConPTY 在 Linux 未執行）。
 - 原始碼語法、文案（禁止使用不友善稱呼）、離線模擬資源檢查：通過。
 - 5 個 BAT：純 ASCII + CRLF 格式；共用 Python 啟動器；Python 3.10–3.13 x64 偵測邏輯已有單元測試。
 - 新增 GitHub Windows 2022 CI：Python 3.10／3.12／3.13 測試，**Windows 真實 ConPTY 操作合成 BAT**，PyInstaller 封裝後功能檢查，Inno Setup 安裝檔生成，以及來源／輸出 SHA256 驗證。
 - 失敗阻擋：Windows 測試、EXE 自測、授權檔案、產物完整性或版本標籤不符，無法產生合格的 Release 草稿。
-- **尚未真正執行該 GitHub Windows CI**。因此此交付包只有完整原始碼，不含已建置的 Windows 安裝 EXE。CI YAML 與程式檢查不是已完成的雲端執行證據。
+- **前一版 1.2.0-rc2 已在 GitHub Actions Windows 建置成功**；但新加入 SC117 的 1.3.0-rc1 仍須重新推送並執行 Windows CI。此交付包目前只有更新後的原始碼，沒有新的 1.3.0 EXE。
 
 ## 仍未驗證、不得對外宣稱完成
 
 - 從零安裝 Strata + GGUF 權重數十 GB + Pack + MTP + 推論聊天的完整鏈路。
 - 各種實體顯卡、Windows 10、驅動及不同電腦的相容性。
 - SmartScreen、Defender、安全簽章與正式發佈的授權法律意見。
-- SC117 Abliterated 自動安裝。**此版只導覽 Strata 官方安裝，絕不應標示為可一鍵安裝 SC117 無審查版本。**
+- SC117 Abliterated 第三方下載與自動安裝 **已新增實驗功能，但大型 GGUF 實際下載、Pack 與推理仍未端到端驗證；不得宣稱正式通過。**
 
 ## 建議發布定位
 

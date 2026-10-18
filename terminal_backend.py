@@ -13,18 +13,41 @@ import time
 class TerminalError(RuntimeError): pass
 
 def build_official_command(args=None):
+    """Allowlist-only CLI. Paths for SC117 are fixed, short RELATIVE paths.
+
+    This is not a generic shell-command builder; reject unknown flags/values.
+    """
     args = list(args or [])
-    rest = args[1:] if args and args[0] == '--setup' else args
-    if rest:
-        if len(rest) != 2 or rest[0] not in ('--gpu', '--gpus') or not isinstance(rest[1], str):
+    remaining = args[:]
+    prefix = []
+    if remaining[:1] == ['--setup']:
+        prefix = ['--setup']; remaining.pop(0)
+    is_sc117 = remaining[:2] == ['--family','qwen']
+    if is_sc117:
+        if not prefix or remaining[:3] != ['--family','qwen','--model']:
+            raise TerminalError('SC117 模式需要明確指定官方 Qwen 系列。')
+        if len(remaining) < 7 or remaining[4] != '--gguf-dir' or remaining[6] != '--data-dir':
+            raise TerminalError('SC117 缺少模型及獨立資料路徑。')
+        from model_variants import validate_tier
+        try: tier = validate_tier(remaining[3])
+        except Exception as exc: raise TerminalError('無效的 SC117 量化。') from exc
+        if remaining[5] != '..\\SC117-GGUF\\' + tier or len(remaining) < 8 or remaining[7] != r'..\Strata-data':
+            raise TerminalError('SC117 模型與 Pack 必須使用指定的獨立相對路徑。')
+        prefix += remaining[:8]
+        remaining = remaining[8:]
+    if remaining:
+        if len(remaining) != 2 or remaining[0] not in ('--gpu','--gpus') or not isinstance(remaining[1],str):
             raise TerminalError('不支援的 Strata 啟動參數。')
-        if not re.fullmatch(r'[0-9]+(?:,[0-9]+)*', rest[1]):
+        if not re.fullmatch(r'[0-9]+(?:,[0-9]+)*', remaining[1]):
             raise TerminalError('不合法的 GPU 編號。')
-        values = rest[1].split(',')
+        values = remaining[1].split(',')
         if any(int(v)>32 for v in values) or len(set(values)) != len(values):
             raise TerminalError('GPU 編號重複或超出範圍。')
-        if (rest[0] == '--gpu' and len(values) != 1) or (rest[0] == '--gpus' and len(values)<2):
+        if (remaining[0] == '--gpu' and len(values) != 1) or (remaining[0] == '--gpus' and len(values)<2):
             raise TerminalError('GPU 編號數量與選項不符。')
+        prefix += remaining
+    if args != prefix:
+        raise TerminalError('偵測到未允許的啟動選項。')
     return 'cmd.exe /d /q /c call START-HERE.bat' + ''.join(' '+x for x in args)
 
 def validate_line(value):

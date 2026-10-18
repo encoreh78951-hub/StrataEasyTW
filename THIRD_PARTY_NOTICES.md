@@ -31,3 +31,7 @@ tools/collect_licenses.py 在 Windows 建置時收集實際套件授權與 inven
 小雪是本專案描述生成的 3D 風格透明圖集，來源記錄見 docs/ASSET_PROVENANCE.md；不代表廠商品牌，沒有附帶 3D 網格。
 
 導覽器不自動上傳日誌。官方下載、套件／模型安裝及主動點擊連結會連線各自服務，其隱私條款另行適用。
+
+## SC117 第三方 Abliterated GGUF（使用者主動選用時）
+
+模型來源：https://huggingface.co/SC117/Qwen3.8-Flash-Next-GSQ-RCO-abliterated-GGUF 。該模型卡標示 Apache-2.0 並要求尊重所有上游模型的授權。Strata Easy TW 不夾帶、不重新發布模型權重。選用第三方模式時，僅在使用者確認後連線 Hugging Face 下載指定的公開 GGUF，建立來源版本及 SHA-256 紀錄。SC117 模型不是官方 Strata 所提供的標準權重；本導覽工具不聲明其回答品質、安全性、相容性或完全不拒答。

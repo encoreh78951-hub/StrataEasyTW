@@ -20,6 +20,7 @@ from hardware_advice import get_resources
 from mascot import Mascot, TIPS
 from session import Session, SessionLog
 from terminal_backend import TerminalError, validate_line
+from model_variants import CARD as SC117_URL, TIERS as SC117_TIERS, DISK_GIB
 from terminal_screen import TerminalScreen
 from ui_widgets import C, label, button, ScrollPanel, TerminalView
 
@@ -32,6 +33,7 @@ class App:
         self.stage='welcome'; self.dirty=True; self.closing=False;self.resize_job=None
         self.health_at=0; self.last_output=0; self.gpus=[]; self.gpu_keys={}
         self.mode=tk.StringVar(value='download')
+        self.variant=tk.StringVar(value='standard');self.sc117_tier=tk.StringVar(value='IQ2_XS')
         self.path=tk.StringVar(value=str(Path.home()/'Strata-AI'))
         self.accept=tk.BooleanVar();self.setup_again=tk.BooleanVar();self.reduced=tk.BooleanVar()
         self.choice=tk.StringVar();self.entry=tk.StringVar();self.demo_kind=tk.StringVar(value='first')
@@ -89,6 +91,24 @@ class App:
         tk.Entry(row,textvariable=self.path,bg=C['bg'],fg=C['text'],insertbackground=C['cyan'],relief='flat',font=('Microsoft JhengHei UI',10)).pack(side='left',fill='x',expand=True,ipady=8)
         button(row,'瀏覽…',self._browse).pack(side='left',padx=(8,0))
         button(row,'硬體資訊',self._show_hardware).pack(side='left',padx=(8,0))
+        vr=tk.Frame(f,bg=C['surface']);vr.pack(fill='x',pady=(0,7))
+        label(vr,'安裝模型',bold=True).pack(side='left',padx=(0,16))
+        for key,caption in [('standard','官方標準模型（建議）'),('sc117','SC117 低拒答模型（第三方）')]:
+            tk.Radiobutton(vr,text=caption,variable=self.variant,value=key,command=self._variant_changed,
+                bg=C['surface'],fg=C['text'],selectcolor=C['panel'],
+                activebackground=C['surface'],activeforeground=C['cyan'],
+                font=('Microsoft JhengHei UI',10)).pack(side='left',padx=(0,11))
+        button(vr,'查看 SC117 來源 ↗',lambda:webbrowser.open(SC117_URL)).pack(side='right')
+        vr2=tk.Frame(f,bg=C['surface']);vr2.pack(fill='x',pady=(0,7))
+        label(vr2,'SC117 量化',bold=True).pack(side='left',padx=(0,13))
+        self.quant_box=ttk.Combobox(vr2,state='readonly',textvariable=self.sc117_tier,
+                                   values=list(SC117_TIERS),width=12,font=('Microsoft JhengHei UI',10))
+        self.quant_box.pack(side='left',padx=(0,12))
+        self.quant_box.bind('<<ComboboxSelected>>',lambda event:self._variant_changed())
+        self.variant_note=label(vr2,'官方標準模型：量化選擇仍由左側的 Strata 官方流程決定。',
+                                color='muted',size=9)
+        self.variant_note.pack(side='left',fill='x',expand=True)
+        self._variant_changed()
         gpu=tk.Frame(f,bg=C['surface']);gpu.pack(fill='x')
         label(gpu,'顯卡設定',bold=True).pack(side='left',padx=(0,15))
         self.gpu_box=ttk.Combobox(gpu,state='readonly',textvariable=self.choice,width=47,font=('Microsoft JhengHei UI',10))
@@ -169,6 +189,15 @@ class App:
         button(r,'模型量化怎麼選？',self._show_models).pack(fill='x',pady=4)
         button(r,'英文名詞與常見問題',self._show_faq).pack(fill='x',pady=4)
 
+    def _variant_changed(self):
+        sc117=self.variant.get()=='sc117'
+        self.quant_box.configure(state='readonly' if sc117 else 'disabled')
+        if sc117:
+            tier=self.sc117_tier.get()
+            self.variant_note.configure(text=f'第三方低拒答 · 大型雙分片 · 建議預留約 {DISK_GIB.get(tier,145)} GiB（含 Pack）')
+        else:
+            self.variant_note.configure(text='官方標準模型：量化由左側的 Strata 官方流程決定。')
+
     def _check(self,parent,text,var,command=None):
         return tk.Checkbutton(parent,text=text,variable=var,command=command,bg=parent.cget('bg'),fg=C['muted'],
             selectcolor=C['panel'],activebackground=parent.cget('bg'),activeforeground=C['text'],font=('Microsoft JhengHei UI',9))
@@ -201,11 +230,24 @@ class App:
         if not path:self._status('請先選擇安裝位置。');return
         try:args=gpu_args(self.gpu_keys[self.choice.get()],{g.index for g in self.gpus})
         except (ValueError,KeyError) as exc:self._error(str(exc));return
-        if self.setup_again.get():args.insert(0,'--setup')
+        variant=self.variant.get()
+        if variant=='sc117':
+            if self.mode.get()!='download':
+                messagebox.showinfo('第三方模型','SC117 需要獨立的首次安裝目錄，請選「從官方 GitHub 下載」。',parent=self.root)
+                return
+            tier=self.sc117_tier.get()
+            accepted=messagebox.askyesno('確認第三方低拒答模型',
+                f'將下載 SC117/{tier} 的兩個 GGUF 分片（大型檔案），在獨立目錄建立專屬 Pack。\n\n'
+                '這不是 Strata 官方模型，也不能保證所有請求都不會拒答。\n'
+                '下載來源：huggingface.co/SC117；須遵守原始模型及衍生模型授權。\n'
+                '導覽器會保留官方 START-HERE.bat，並傳遞 GGUF 與資料位置參數。\n\n'
+                '確定繼續？',parent=self.root)
+            if not accepted:return
+        elif self.setup_again.get():args.insert(0,'--setup')
         if self.mode.get()=='existing' and args:
             if not messagebox.askyesno('將更改既有設定','指定 GPU 或 --setup 可能更動既有部署。確定繼續？',parent=self.root):return
         self._reset();self._status('正在準備安裝工作…')
-        try:self.session.start(self.mode.get(),path,args)
+        try:self.session.start(self.mode.get(),path,args,variant=variant,tier=self.sc117_tier.get())
         except Exception as exc:self._error(str(exc))
     def _demo_start(self):
         if self.session.active():self._status('請先停止目前展示，再重播。');return
@@ -391,8 +433,8 @@ A：模型可能還在載入，或 8080 已被別的程式使用。請先看左�
 【Q：如何改 Context / 圖片理解？】
 A：官方提供 SETUP.bat（也可用 START-HERE.bat --setup）。更改已有部署前請備份設定。
 
-【Q：這是無審查 SC117 版本嗎？】
-A：不是。本導覽器保留官方標準安裝流程，並未私下換成 SC117 Abliterated 權重。第三方版本應另經使用者授權確認及專屬 Pack。
+【Q：可以選 SC117 低拒答版本嗎？】
+A：可以。先選「從官方 GitHub 下載」，再選「SC117 低拒答模型（第三方）」與量化。工具從 SC117 原作者 Hugging Face 下載雙分片，核對 SHA-256 後交由原版 START-HERE.bat 建立獨立 Pack。此流程尚待完整大型模型端到端實測。
 
 【Q：關閉導覽器會怎麼樣？】
 A：如果官方模型還在這裡執行，關閉可能一起停止 Strata；聊天頁面將無法再回答。''')

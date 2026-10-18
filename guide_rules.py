@@ -21,6 +21,8 @@ class Guide:
 GUIDES: dict[str, Guide] = {
     'welcome': Guide('welcome', '等待開始', '左邊會執行真正的 Strata 官方安裝程式；右邊只提供中文說明。所有選項仍由你親自決定。', '選擇安裝資料夾，或選擇既有的 Strata 資料夾。', 0),
     'source': Guide('source', '取得官方原始碼', '從 Niko1221/Strata 的 GitHub 官方倉庫下載某個固定 commit 的 ZIP。導覽器不修改原始安裝檔案。', '下載完成後會開始執行 START-HERE.bat。', 8),
+    'sc117_download': Guide('sc117_download','下載 SC117 第三方模型','選定量化的兩個大型 GGUF 分片會從 SC117 Hugging Face 原作者倉庫下載、續傳並核對 SHA-256。下載中不會啟動 Strata。','等待兩個 GGUF 完整通過驗證；中斷可重新啟動續傳。',55),
+    'sc117_prepare': Guide('sc117_prepare','準備 SC117 專屬 Pack','將由原版 START-HERE.bat 使用 --gguf-dir 和獨立 Strata-data，替 SC117 模型建立自己的 Pack，不沿用官方標準版 Pack。','依左側官方程式回覆後續設定；不要關閉 Pack 階段。',73),
     'existing': Guide('existing', '偵測到可能已部署的 Strata', '資料夾含有模型啟動檔或模型設定。官方程式通常會直接啟動既有模型，略過第一次才需要做的 GPU、下載、MTP 等步驟。這不代表導覽器漏掉畫面。', '若只是要使用既有模型，請沿用官方設定；需要重選模型才主動勾選「--setup」。', 13),
     'already_running': Guide('already_running', '本機已有 AI 聊天服務', '8080 已有服務回報 ready，不能將它當成本次安裝成功的證據。本導覽器沒有再次啟動另一份 Strata。', '可以檢查並開啟現有網頁；如要啟動另一份，先停止原本使用 8080 的程序。', 0),
     'port_busy': Guide('port_busy', '8080 已被其他程式占用', '目前無法確認占用連接埠的程式身分。為避免雙重啟動或錯誤歸因，導覽器停止了這次啟動。', '先結束占用 8080 的程序，再由導覽器執行官方安裝。', 0),

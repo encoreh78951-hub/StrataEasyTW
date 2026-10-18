@@ -1,6 +1,6 @@
-> **公開測試候選版 RC2**：可以透過 GitHub Windows CI 自動建置；請見 [README_發布方式.md](README_發布方式.md)。不需要在開發者自己的電腦下載或重裝模型。
+> **公開測試候選版 1.3.0-rc1**：可以透過 GitHub Windows CI 自動建置；請見 [README_發布方式.md](README_發布方式.md)。不需要在開發者自己的電腦下載或重裝模型。
 
-# Strata Easy TW 1.2.0-rc2
+# Strata Easy TW 1.3.0-rc1
 
 非官方繁體中文 Windows 安裝導覽器，以使用者上傳的 v1.1 整合升級，保留 Strata 官方 START-HERE.bat 互動流程。
 
@@ -9,7 +9,7 @@
 ## 新功能
 
 - 賽博龐克雙欄介面：左側真實 ConPTY 終端機，右側依官方英文輸出辨識階段、提供詳細繁體中文說明，不自動回答問題。
-- 小雪升級為 3D 渲染風格的透明雪納瑞圖像：六種姿態對應 23 個階段，可減少動態。這是預先渲染素材，不包含可旋轉的 3D 網格。
+- 小雪升級為 3D 渲染風格的透明雪納瑞圖像：六種姿態對應多種安裝階段，可減少動態。這是預先渲染素材，不包含可旋轉的 3D 網格。
 - 首次安裝、既有安裝、失敗排除三種離線展示。
 - 官方來源 commit 記錄、安全解壓、防覆蓋、取消與重啟、8080 衝突防護、日誌匯出。
 - Windows 建置腳本、繁中 Inno Setup 安裝器設定與第三方授權資料。
@@ -21,7 +21,7 @@
 3. 雙擊 RUN_DEMO_WINDOWS.bat。首次啟動會連網安裝導覽器相依套件至 .guide-venv，之後重用；**展示本身離線，第一次準備套件仍需網路。**
 4. 左下可切換三種情境。展示不執行 Strata、不下載模型、不偵測 8080；主動點擊來源連結仍會開啟瀏覽器。
 
-原始碼啟動需要 Python。未來成功建置的 EXE 可自帶執行環境，但本次交付沒有 EXE。
+原始碼啟動需要 Python；上一版 RC2 的 EXE 已在 GitHub Actions 成功打包。本次新增 SC117 的 1.3.0-rc1 原始碼仍需重新跑 Windows CI，產生對應新 EXE。
 
 ## 真正安裝
 
@@ -34,7 +34,15 @@
 7. 右側是保守解說，不是逐字翻譯。官方問句可能改變，請以原文為準。
 8. 伺服器啟動後，按「檢查並開啟聊天」。工具先檢查本機 /health，再開啟 http://127.0.0.1:8080 。健康回應未核對 PID，不能當作完整安裝驗收。
 
-官方可能把 Strata-data 放在程式資料夾的同層。這是標準官方安裝導覽，沒有加入 SC117 或其他第三方衍生權重的自動下載。
+官方可能把 Strata-data 放在程式資料夾的同層。**新加入兩種模型來源選擇：**
+- **官方標準模型（預設）**：完全保留 Strata 的模型選擇與 `START-HERE.bat` 問答。
+- **SC117 第三方低拒答模型（實驗性）**：選取 Q2_0／IQ2_XS／IQ3_XXS／IQ3_S，直接從 SC117 的 Hugging Face 專案下載兩個 GGUF 分片、驗證 LFS SHA-256，然後將本機 GGUF 路徑交給官方腳本重建專用 Pack。
+
+SC117 會使用 `<選擇的位置>/Strata-Easy-TW-SC117/` 下獨立的官方程式、GGUF 和 Strata-data；避免和標準模型共用 Pack。大模型本體約數十 GB，還需預留 Pack 和暫存空間。**SC117 分支尚未完成數十 GB 真實網路下載 + Pack + 推理的端到端驗收**，不能當作已保證安裝成功。中斷下載會保留 `.part` 供再次執行續傳。
+
+詳細操作與來源請見 [SC117_INSTALL_GUIDE.zh-TW.md](SC117_INSTALL_GUIDE.zh-TW.md)。
+
+SC117 模型不是 Strata 官方產品。Abliterated 僅意指經第三方降低某些拒答傾向，**不保證所有回答都不拒答**。請查看其獨立授權、模型卡及上游授權。
 
 ## 停止、重試與日誌
 
@@ -61,8 +69,8 @@
 
 成功後預期產物（本次未產生）：
 
-- release/StrataEasyTW-1.2.0-rc2-Windows-Portable.zip，須保留整個資料夾，不能只取出 EXE。
-- release/StrataEasyTW-1.2.0-rc2-Setup.exe，繁中、每位使用者安裝，不需管理員權限。
+- release/StrataEasyTW-1.3.0-rc1-Windows-Portable.zip，須保留整個資料夾，不能只取出 EXE。
+- release/StrataEasyTW-1.3.0-rc1-Setup.exe，繁中、每位使用者安裝，不需管理員權限。
 - release/SHA256SUMS.txt、build/packaged-self-test.json、build/packaged-ui-test.json。
 
 只建置可攜版：準備相依套件後執行 python tools/build_windows.py --portable-only。附帶 GitHub Actions 工作流程，但本次未連接倉庫、未執行雲端建置或公開發布。產物預設未簽章；請完成 Windows 驗收與簽章後再正式發布。

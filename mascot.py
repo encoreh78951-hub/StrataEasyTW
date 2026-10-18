@@ -5,7 +5,8 @@ from PIL import Image, ImageTk
 from app_config import resource
 POSES = ('welcome', 'explain', 'working', 'waiting', 'concerned', 'success')
 STAGE_POSES = {
-    'welcome': 'welcome', 'source': 'working', 'existing': 'explain',
+    'welcome': 'welcome', 'source': 'working', 'sc117_download':'waiting',
+    'sc117_prepare':'working', 'existing': 'explain',
     'startup': 'explain', 'hardware': 'working', 'family': 'explain',
     'size': 'explain', 'context': 'explain', 'vision': 'explain',
     'speed': 'explain', 'download': 'waiting', 'environment': 'working',
@@ -18,6 +19,8 @@ TIPS = {
     'welcome': '嗨，我是小雪！選好資料夾後，我會陪你看懂每一步。',
     'source': '先取得官方程式。這一步還沒有下載大型模型喔。',
     'existing': '找到舊部署了！沿用原設定，就不用重新選模型。',
+    'sc117_download':'正在下載 SC117 的兩個分片，完成後會核對雜湊；可續傳喔。',
+    'sc117_prepare':'這次用的是第三方模型，Pack 要重新建，不能沿用標準版的。',
     'startup': '我準備好了。出現選單時，在左側輸入你的選擇。',
     'hardware': '讓官方檢查這台電腦。顯卡、RAM 和 SSD 都很重要。',
     'family': '這次選的是模型系列。先看用途，再看官方推薦的編號。',

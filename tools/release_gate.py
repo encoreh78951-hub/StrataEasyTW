@@ -97,7 +97,7 @@ def verify_binaries():
                                          for p in (setup,portable,source)},
             'notices':['未執行大型模型首次安裝','Windows 安裝程式未簽章',
                        '未驗證 SmartScreen/防毒及所有使用者硬體配置',
-                       '不支援自動安裝 SC117 低拒答模型']}
+                       'SC117 第三方低拒答模型僅通過模擬測試，未完成真實大型模型部署']}
     out=ROOT/'build/windows-release-check.json'
     out.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')

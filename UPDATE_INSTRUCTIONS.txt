@@ -1,0 +1,10 @@
+Strata Easy TW 1.3.0-rc1 / GitHub update instructions
+
+1. Unzip this archive.
+2. In GitHub Desktop, open Repository > Show in Explorer.
+3. Copy all extracted files/folders INTO THE REPOSITORY ROOT, preserving .github / installer / tests / tools subfolders. Replace existing files.
+4. GitHub Desktop: Commit to main, then Push origin.
+5. GitHub Actions runs automatically. Only publish the new 1.3.0 RC after all Windows jobs pass.
+
+This is SOURCE ONLY. It does not contain a Windows 1.3.0 EXE or any model weights.
+SC117 has only synthetic/offline tests, NOT a real 70GB+ model installation test.
