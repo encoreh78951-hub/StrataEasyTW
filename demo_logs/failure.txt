@@ -1,0 +1,5 @@
+Step 1: Checking hardware: GPU RTX 3060
+Which model size (Q2_0 / IQ2_XS / IQ3_XXS)?
+Downloading model shard... 2 GB / 70 GB
+ERROR: download failed: network connection interrupted
+[DEMO] 模擬失敗流程結束，未執行真實下載。

@@ -1,0 +1,130 @@
+name: Windows QA and release-candidate artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check-windows:
+    name: Python ${{ matrix.python-version }} | Windows checks
+    runs-on: windows-2022
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install pinned runtime dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - name: Check Python tests and user-facing copy
+        run: python tools/verify_source.py
+      - name: Actual Windows ConPTY interaction (synthetic fixture, no Strata model)
+        run: python -c "from smoke import conpty_fixture; print(conpty_fixture())"
+      - name: Check Windows BAT files (ASCII, CRLF, common launcher)
+        run: python tools/release_gate.py --source-check
+      - name: Store reports on failure or success
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-python-${{ matrix.python-version }}
+          path: |
+            docs/test-results/source-verification.json
+            docs/test-results/unit-tests.txt
+            docs/test-results/source-self-test.json
+          if-no-files-found: warn
+
+  build-windows:
+    name: Windows EXE and installer candidate
+    needs: [check-windows]
+    runs-on: windows-2022
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Install pinned build dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-build.txt
+      - name: Run source checks and generate source ZIP
+        run: |
+          python tools/verify_source.py
+          python tools/package_source.py
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco upgrade innosetup --yes --no-progress --allow-downgrade
+      - name: Package, run EXE self-test and ConPTY, verify GUI smoke
+        run: python tools/build_windows.py
+      - name: Verify candidate output and produce QA manifest
+        run: python tools/release_gate.py --binary-check
+      - name: Upload unsigned candidates and verification results
+        uses: actions/upload-artifact@v4
+        with:
+          name: StrataEasyTW-${{ github.ref_name }}-Windows-RC-UNSIGNED
+          path: |
+            release/*
+            deliverables/*_Source.zip
+            deliverables/SHA256SUMS.txt
+            build/packaged-self-test.json
+            build/packaged-ui-test.json
+            build/third-party-licenses/inventory.json
+            build/windows-release-check.json
+            docs/test-results/source-verification.json
+            docs/test-results/unit-tests.txt
+          if-no-files-found: error
+      - name: Publish QA outcome to run summary
+        shell: pwsh
+        run: |
+          Add-Content $env:GITHUB_STEP_SUMMARY '✅ Windows Python 3.10/3.12/3.13 CI, synthetic ConPTY interaction and packaged EXE smoke tests passed.'
+          Add-Content $env:GITHUB_STEP_SUMMARY '⚠️ Does NOT verify a full 70GB Strata download/model run or all end-user Windows computers. Outputs are unsigned RC candidates.'
+
+  release-draft:
+    name: Create private draft prerelease (never publish automatically)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: StrataEasyTW-${{ github.ref_name }}-Windows-RC-UNSIGNED
+          path: candidate
+      - name: Prepare release note
+        shell: bash
+        run: |
+          cat > release-notes.txt <<'EOF'
+          Strata Easy TW 非官方繁體中文導覽器｜測試候選版本
+
+          已經通過 Windows 自動化檢查（包含真實 ConPTY 的模擬互動和打包後 EXE smoke test），但尚未驗證全新使用者從下載 125B GGUF、Pack、MTP 到聊天的完整部署。因此本版是預覽／測試候選版，不是正式穩定版。
+
+          本工具不包含原版 Strata 程式或模型權重；透過原始來源下載。預設導覽官方標準模型；不自動安裝 SC117 低拒答模型。各原始碼／模型均依其獨立授權使用。
+
+          Windows 下載：Setup.exe 或 Portable.zip；未簽章，可能顯示 SmartScreen 警示。請從本專案 Release 頁面下載，檢查 SHA256SUMS。
+          EOF
+      - uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          prerelease: true
+          name: 'Strata Easy TW ${{ github.ref_name }} (Windows RC · 尚未完成完整模型安裝驗證)'
+          body_path: release-notes.txt
+          files: |
+            candidate/release/*.exe
+            candidate/release/*.zip
+            candidate/release/SHA256SUMS.txt
+            candidate/deliverables/*_Source.zip
+            candidate/deliverables/SHA256SUMS.txt
+          fail_on_unmatched_files: true

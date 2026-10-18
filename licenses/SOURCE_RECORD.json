@@ -1,0 +1,61 @@
+[
+  {
+    "file": "licenses/GPL-3.0.txt",
+    "source": "/usr/share/common-licenses/GPL-3 (local distribution original GNU text)",
+    "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "note": "gnu.org download returned HTTP 502; local unmodified license text used"
+  },
+  {
+    "file": "licenses/PYWINPTY.txt",
+    "url": "https://raw.githubusercontent.com/andfoy/pywinpty/v2.0.15/LICENSE.txt",
+    "bytes": 1067,
+    "sha256": "0aa57a7c7462b45437cc239c3c037f19bfb163f8caa053b276c368253a5d10f7"
+  },
+  {
+    "file": "licenses/TCL-TK.txt",
+    "url": "https://raw.githubusercontent.com/tcltk/tk/core-8-6-branch/license.terms",
+    "bytes": 2267,
+    "sha256": "2cde822b93ca16ae535c954b7dfe658b4ad10df2a193628d1b358f1765e8b198"
+  },
+  {
+    "file": "licenses/STRATA.txt",
+    "url": "https://raw.githubusercontent.com/Niko1221/Strata/main/LICENSE",
+    "bytes": 1093,
+    "sha256": "949b9b0aada7476006469e58ee4ffb0e0f68c2d9137e90a356757b61a09d37f0"
+  },
+  {
+    "file": "installer/ChineseTraditional.isl",
+    "url": "https://raw.githubusercontent.com/jrsoftware/issrc/main/Files/Languages/ChineseTraditional.isl",
+    "bytes": 21754,
+    "sha256": "031684fc769259291fd563338b5abe20b7753c88ab5a2976b83a80788deb8455"
+  },
+  {
+    "file": "licenses/INNOSETUP.txt",
+    "url": "https://raw.githubusercontent.com/jrsoftware/issrc/main/license.txt",
+    "bytes": 1521,
+    "sha256": "2e5346868c2a18434489824e11d65c3031620f792fefc415d05f19cd441abf5c"
+  },
+  {
+    "file": "third_party_sources/pyte-0.8.2.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/ab/ab/b599762933eba04de7dc5b31ae083112a6c9a9db15b01d3109ad797559d9/pyte-0.8.2.tar.gz",
+    "bytes": 92301,
+    "sha256": "5af970e843fa96a97149d64e170c984721f20e52227a2f57f0a54207f08f083f"
+  },
+  {
+    "file": "third_party_sources/wcwidth-0.2.13.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/6c/63/53559446a878410fc5a5974feb13d31d78d752eb18aeba59c7fef1af7598/wcwidth-0.2.13.tar.gz",
+    "bytes": 101301,
+    "sha256": "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
+  },
+  {
+    "file": "third_party_sources/pywinpty-2.0.15.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/2d/7c/917f9c4681bb8d34bfbe0b79d36bbcd902651aeab48790df3d30ba0202fb/pywinpty-2.0.15.tar.gz",
+    "bytes": 29017,
+    "sha256": "312cf39153a8736c617d45ce8b6ad6cd2107de121df91c455b10ce6bba7a39b2"
+  },
+  {
+    "file": "licenses/PILLOW.txt",
+    "source": "Pillow 11.3.0 installed wheel, pillow-11.3.0.dist-info/licenses/LICENSE",
+    "sha256": "2c40a7d8894126ff7a993a752505b915694aafe7a620889ef368acbf54b87144"
+  }
+]

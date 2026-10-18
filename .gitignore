@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.guide-venv/
+.venv/
+build/
+dist/
+release/
+*.log
+
+deliverables/
+diagnostics/
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/

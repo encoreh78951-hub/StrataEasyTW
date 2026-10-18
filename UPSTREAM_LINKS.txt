@@ -1,0 +1,15 @@
+Strata Easy TW 1.2.0-rc1 — 非官方繁體中文 Windows 安裝導覽
+
+官方專案：https://github.com/Niko1221/Strata
+官方授權：https://github.com/Niko1221/Strata/blob/main/LICENSE
+官方入口：https://github.com/Niko1221/Strata/blob/main/START-HERE.bat
+模型來源與授權：請依當次官方安裝器顯示的模型頁個別核對。
+
+此交付不含模型權重，沒有官方合作／背書。
+元件版本與授權：requirements.txt、THIRD_PARTY_NOTICES.md、licenses/
+Windows 產物仍待建置與實測：TEST_REPORT.md、LEGAL_AND_RELEASE_CHECKLIST.md
+
+建置參考：
+https://pyinstaller.org/en/v6.16.0/common-issues-and-pitfalls.html
+https://github.com/andfoy/pywinpty/tree/v2.0.15
+https://jrsoftware.org/isinfo.php

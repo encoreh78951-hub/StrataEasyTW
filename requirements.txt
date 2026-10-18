@@ -1,0 +1,5 @@
+# Supported launcher versions: 64-bit CPython 3.10-3.13. Windows ConPTY requires its platform wheel.
+pywinpty==2.0.15; sys_platform == 'win32'
+Pillow==11.3.0
+pyte==0.8.2
+wcwidth==0.2.13

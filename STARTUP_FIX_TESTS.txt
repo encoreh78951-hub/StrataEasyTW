@@ -1,0 +1,8 @@
+PASS: RUN_WINDOWS.bat ASCII + CRLF
+PASS: RUN_DEMO_WINDOWS.bat ASCII + CRLF
+PASS: BUILD_WINDOWS_EXE.bat ASCII + CRLF
+PASS: RUN_DIAGNOSTIC.bat ASCII + CRLF
+PASS: LAUNCH_WINDOWS.bat ASCII + CRLF
+PASS: relative CALL path - no percent-expanded full path
+PASS: Python 3.10 supported
+Windows CMD / ConPTY end-to-end: NOT TESTED in this Linux environment.

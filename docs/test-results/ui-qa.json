@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "platform": "linux",
+  "tk": 8.6,
+  "stages": 23,
+  "demo_scenarios": 3,
+  "sizes": [
+    "1420x940",
+    "1100x680"
+  ],
+  "callback_errors": [],
+  "windows_verified": false,
+  "note": "offline UI only; no official installer executed"
+}

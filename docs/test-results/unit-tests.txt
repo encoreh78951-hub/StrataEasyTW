@@ -1,0 +1,65 @@
+test_every_stage_has_four_plain_language_fields (test_beginner_help.BeginnerExperienceTests.test_every_stage_has_four_plain_language_fields) ... ok
+test_excerpt_fallback_never_makes_up_translation (test_beginner_help.BeginnerExperienceTests.test_excerpt_fallback_never_makes_up_translation) ... ok
+test_glossary_covers_beginner_terms (test_beginner_help.BeginnerExperienceTests.test_glossary_covers_beginner_terms) ... ok
+test_gpu_choice_cannot_inject_commands (test_beginner_help.BeginnerExperienceTests.test_gpu_choice_cannot_inject_commands) ... ok
+test_injected_log_does_not_execute_anything (test_beginner_help.BeginnerExperienceTests.test_injected_log_does_not_execute_anything) ... ok
+test_known_line_has_advice_not_claimed_exact_translation (test_beginner_help.BeginnerExperienceTests.test_known_line_has_advice_not_claimed_exact_translation) ... ok
+test_resource_checks_are_readonly (test_beginner_help.BeginnerExperienceTests.test_resource_checks_are_readonly) ... ok
+test_stage_order_for_standard_simulated_run (test_beginner_help.BeginnerExperienceTests.test_stage_order_for_standard_simulated_run) ... ok
+test_prevent_bad_zip (test_core.TestGitHubArchive.test_prevent_bad_zip) ... ok
+test_safe_extract_and_upstream_files (test_core.TestGitHubArchive.test_safe_extract_and_upstream_files) ... ok
+test_traversal_block (test_core.TestGitHubArchive.test_traversal_block) ... ok
+test_stages_and_nonautomatic (test_core.TestGuide.test_stages_and_nonautomatic) ... ok
+test_unrecognized_does_not_claim_success (test_core.TestGuide.test_unrecognized_does_not_claim_success) ... ok
+test_ansi_split (test_core.TestScreen.test_ansi_split) ... ok
+test_carriage_return_progress (test_core.TestScreen.test_carriage_return_progress) ... ok
+test_max_lines (test_core.TestScreen.test_max_lines) ... ok
+test_demo_files_present_and_not_running_real_strata (test_core.TestV03.test_demo_files_present_and_not_running_real_strata) ... ok
+test_existing_source_does_not_prove_configured (test_core.TestV03.test_existing_source_does_not_prove_configured) ... ok
+test_gpu_choice_never_implicitly_changes_model (test_core.TestV03.test_gpu_choice_never_implicitly_changes_model) ... ok
+test_gpu_csv_detection (test_core.TestV03.test_gpu_csv_detection) ... ok
+test_occupied_unrecognized_port (test_core.TestV03.test_occupied_unrecognized_port) ... ok
+test_official_command_no_injection (test_core.TestV03.test_official_command_no_injection) ... ok
+test_batch_scripts_use_common_launcher (test_python_launcher.PythonDetection.test_batch_scripts_use_common_launcher) ... ok
+test_reject_32bit_or_pypy (test_python_launcher.PythonDetection.test_reject_32bit_or_pypy) ... ok
+test_reject_unsupported_versions (test_python_launcher.PythonDetection.test_reject_unsupported_versions) ... ok
+test_supported_64bit (test_python_launcher.PythonDetection.test_supported_64bit) ... ok
+test_cancel_before_extraction (test_release.Archives.test_cancel_before_extraction) ... ok
+test_case_collision (test_release.Archives.test_case_collision) ... ok
+test_download_fixed_commit_and_record (test_release.Archives.test_download_fixed_commit_and_record) ... ok
+test_existing_directory_never_overwritten (test_release.Archives.test_existing_directory_never_overwritten) ... ok
+test_invalid_windows_names (test_release.Archives.test_invalid_windows_names) ... ok
+test_low_disk (test_release.Archives.test_low_disk) ... ok
+test_symlink_block (test_release.Archives.test_symlink_block) ... ok
+test_actual_upstream_prompts (test_release.Guides.test_actual_upstream_prompts) ... ok
+test_error_stays_on_unrecognized_tail (test_release.Guides.test_error_stays_on_unrecognized_tail) ... ok
+test_every_stage_has_mascot (test_release.Guides.test_every_stage_has_mascot) ... ok
+test_latest_stage_in_single_read (test_release.Guides.test_latest_stage_in_single_read) ... ok
+test_output_never_sets_verified_ready (test_release.Guides.test_output_never_sets_verified_ready) ... ok
+test_split_ansi_prompt (test_release.Guides.test_split_ansi_prompt) ... ok
+test_terminal_osc_does_not_trigger_stage (test_release.Guides.test_terminal_osc_does_not_trigger_stage) ... ok
+test_cancel_download_prevents_spawn (test_release.Lifecycle.test_cancel_download_prevents_spawn) ... ok
+test_demo_does_not_probe_or_download (test_release.Lifecycle.test_demo_does_not_probe_or_download) ... ok
+test_no_automatic_answers_and_restart (test_release.Lifecycle.test_no_automatic_answers_and_restart) ... ok
+test_occupied_port_does_not_start (test_release.Lifecycle.test_occupied_port_does_not_start) ... ok
+test_stale_events_ignored (test_release.Lifecycle.test_stale_events_ignored) ... ok
+test_chinese_and_osc (test_release.Terminal.test_chinese_and_osc) ... ok
+test_colour_is_preserved (test_release.Terminal.test_colour_is_preserved) ... ok
+test_cursor_clear_and_redraw (test_release.Terminal.test_cursor_clear_and_redraw) ... ok
+test_cursor_up (test_release.Terminal.test_cursor_up) ... ok
+test_log_is_bounded (test_release.Terminal.test_log_is_bounded) ... ok
+test_multiline_and_controls_blocked (test_release.Terminal.test_multiline_and_controls_blocked) ... ok
+test_resize_archives_overflow (test_release.Terminal.test_resize_archives_overflow) ... ok
+test_resize_preserves_short_output (test_release.Terminal.test_resize_preserves_short_output) ... ok
+test_status_response_only (test_release.Terminal.test_status_response_only) ... ok
+test_interactive_conpty_fixture (test_release.WindowsIntegration.test_interactive_conpty_fixture) ... skipped 'requires real Windows ConPTY'
+test_ascii_and_crlf_launchers (test_release_gate.ReleaseSafety.test_ascii_and_crlf_launchers) ... ok
+test_matching_tag_accepted (test_release_gate.ReleaseSafety.test_matching_tag_accepted) ... ok
+test_mismatched_tag_is_rejected (test_release_gate.ReleaseSafety.test_mismatched_tag_is_rejected) ... ok
+test_no_unsigned_binary_can_pass_when_missing (test_release_gate.ReleaseSafety.test_no_unsigned_binary_can_pass_when_missing) ... ok
+test_source_packager_excludes_test_caches (test_release_gate.ReleaseSafety.test_source_packager_excludes_test_caches) ... ok
+
+----------------------------------------------------------------------
+Ran 60 tests in 1.642s
+
+OK (skipped=1)

@@ -1,0 +1,8 @@
+-r requirements.txt
+PyInstaller==6.16.0
+pyinstaller-hooks-contrib==2025.9
+packaging==25.0
+altgraph==0.17.4
+pefile==2023.2.7; sys_platform == 'win32'
+pywin32-ctypes==0.2.3; sys_platform == 'win32'
+setuptools==80.9.0

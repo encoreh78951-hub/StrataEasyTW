@@ -1,0 +1,5 @@
+Step 1: Checking hardware: GPU RTX 3060, 12 GiB, RAM 64 GB
+Found existing model configuration and prepared pack. Skipping setup.
+Loading model from existing pack...
+Starting server on 127.0.0.1:8080
+[DEMO] 模擬既有安裝啟動流程結束，未啟動 Strata。

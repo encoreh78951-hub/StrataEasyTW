@@ -1,0 +1,1 @@
+無法建置 Windows EXE：目前不是 Windows。請使用 Windows x64 或附帶的 GitHub Actions 工作流程。

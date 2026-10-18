@@ -1,0 +1,11 @@
+Step 1: Checking hardware: GPU RTX 3060, 12 GiB, RAM 64 GB
+Step 2: Which model family would you like?
+Which model size (Q2_0 / IQ2_XS / IQ3_XXS)?
+How much context? [32768]:
+Images? [yes/no]:
+Step 3: Setting up Python environment
+Downloading model shard... 5 GB / 70 GB
+Preparing native pack...
+Installing MTP draft acceleration...
+Step 7: Starting server...
+[DEMO] 模擬安裝紀錄播放完畢，沒有真正安裝或啟動任何東西。
